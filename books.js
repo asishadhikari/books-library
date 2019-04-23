@@ -11,6 +11,8 @@ function init(){
 		parameters : {display : "categories"},		
 		onSuccess : displayCategories
 	});
+
+	
 }
 
 function displayCategories(d){
