@@ -24,11 +24,23 @@ function init(){
 
 function displayCategories(d){
 	var cats = [];
+	var categories;
 	//check if reposnse text is in json
 	if(isJSON(d.responseText)){
-		cats = JSON.parse(d.responseText);
+		cats = JSON.parse(d.responseText)["categories"];
 	}else if(d.responseXML){
-	
+		categories = d.responseXML.firstElementChild;
+		var f_child = categories.firstChild;
+		while(f_child){
+			//traverse xml 
+			var cat = f_child.firstChild.firstChild.nodeValue;
+			//var c_id = f_child.lastChild.firstChild.nodeValue;??unnecessary
+			cats.push([cat]);
+			f_child = f_child.nextSibling;
+		} 
+	}else{
+		console.log("Invalid Data format received");
+		console.log(d.responseText);
 	}
 
 }	
@@ -46,10 +58,10 @@ function logExcept(a,e){
 }
 
 function isJSON(s) {
-    try {
-        JSON.parse(s);
-    } catch (e) {
-        return false;
-    }
-    return true;
+	try {
+		JSON.parse(s);
+	} catch (e) {
+		return false;
+	}
+	return true;
 }
