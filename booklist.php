@@ -10,28 +10,37 @@ $display = $_GET["display"]; //
 
 $format = $_GET["format"];
 $display = $_GET["display"];
+$db = dbase_connect(); //connect to database
 
-
+//Load the initial categories
 if( strcasecmp($display, "categories")==0){
-	$db = dbase_connect();
 	$stmt = "SELECT * FROM category;";
-	$all_categories = mysqli_query($db, $stmt);
+	$cats = mysqli_query($db, $stmt);
 
 	//JSON data was requested
 	if( strcasecmp("JSON",$format)==0 ){
-		$list_of_categories = array();
-		while ($row = $all_categories->fetch_assoc()) {
-			array_push($list_of_categories, $row[category]);
+		$cats_list = array();
+		while ($record = $cats->fetch_assoc()) {
+			array_push($cats_list, $record[category]);
 		}
-		$dataJSON = array("categories" => $list_of_categories);
+		$dataJSON = array("categories" => $cats_list);
 		echo json_encode($dataJSON);
 	}else{
 		//send XML
-		
+		$dataXML = new SimpleXMLElement("<categories></categories>");
+		while ($record = $cats->fetch_assoc()) {
+			$c = $dataXML->addChild($record[category]);
+			$c -> addChild("name", $record[category]);
+			$c -> addChild("id",$record[category_id]);
+		}
+		Header('Content-type: text/xml');
+		echo $dataXML->asXML();
 	}
-
-
 }
+
+
+
+mysqli_close($db);
 
 
 
