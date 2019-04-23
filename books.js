@@ -19,5 +19,5 @@ function displayCategories(d){
 }	
 
 function logExcept(e){
-	console.log("fail...");
+	console.log("fail");
 }
