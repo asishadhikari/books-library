@@ -14,8 +14,7 @@ function init(){
 }
 
 function displayCategories(d){
-	$('container').innerHTML = d;
-	console.log("success");
+	
 }	
 
 function logExcept(e){
