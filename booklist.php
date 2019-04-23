@@ -8,6 +8,7 @@ define("DB", "BOOKS");
 $format = $_GET["format"]; //JSON or XML
 $display = $_GET["display"]; //
 
+echo json_encode($display);
 
 
 
@@ -26,11 +27,5 @@ function dbase_connect() {
 	}
 	return $conn;
 }
-
-
-
-
-
-
 
 ?>
