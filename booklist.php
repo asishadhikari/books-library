@@ -12,10 +12,23 @@ $format = $_GET["format"];
 $display = $_GET["display"];
 
 //query for categories
-if (strcmp($display, "categories")==0){
+if( strcmp($display, "categories")==0 ){
 	$db = dbase_connect();
 	$stmt = "SELECT * FROM category;"
 	$categories = mysqli_query($db,$stmt);
+
+
+	//check if json was requested
+	if( (strcasecmp($format,"json")==0 ){
+		$cats = array();
+		while($cat = $categories->fetch_assoc()){
+			array_push($cats, $row[$cat]);
+		}
+		$data_json = array("categories" => $cats);
+		echo json_encode($data_json);
+	}else{
+		//send ajax
+	}
 }
 
 
