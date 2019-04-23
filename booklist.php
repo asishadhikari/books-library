@@ -40,11 +40,9 @@ if( strcasecmp($display, "categories")==0){
 
 
 
+
+
 mysqli_close($db);
-
-
-
-
 
 
 //connect to database
