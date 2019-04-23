@@ -1,7 +1,8 @@
 <?php
-	$myfile = fopen("books.json", "r") or die("Unable to open file!");
-	$data = fread($myfile,filesize("books.json"));
-	fclose($myfile);
-	$json_data = json_decode($data);
-	echo $data;
+$display = $_GET["display"]; //get query parameter from client
+
+if(strcmp($display, "categories") == 0){
+	echo "match found"
+}
+
 ?>
