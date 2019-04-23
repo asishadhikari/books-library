@@ -3,7 +3,7 @@
 window.onload = init;
 
 function init(){
-	var data = new Ajax.Request("booklist.php",{
+	new Ajax.Request("booklist.php",{
 		method : "get",
 		onException : logExcept,
 		onFailure : logExcept,
@@ -16,11 +16,11 @@ function init(){
 }
 
 function displayCategories(d){
-	var data = JSON.parse(d.responseJSON);
-	console.log("ok, data is "+data.responseText);
+	console.log(d);
 }	
 
 function logExcept(a,e){
+	
 	console.log(a); //ajax object
 	console.log("ajax status: " + a.status);
 	console.log("status text: " + a.statusText);

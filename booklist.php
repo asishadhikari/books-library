@@ -1,4 +1,4 @@
-<? php
+<?php
 define("SRV_ADDR", "localhost");
 define("USER", "USER1");
 define("PASS", "USER1PASSWORD");
@@ -8,7 +8,11 @@ define("DB", "BOOKS");
 $format = $_GET["format"]; //JSON or XML
 $display = $_GET["display"]; //
 
-echo json_encode($display);
+$format = $_GET["format"];
+$display = $_GET["display"];
+
+echo json_encode('{ "books": [ { "category": "cooking", "year": 2009, "price": 22.00, "title": "Breakfast for Dinner", "author": "Amanda Camp" }, { "category": "cooking", "year": 2010, "price": 75.00, "title": "21 Burgers for the 21st Century", "author": "Stuart Reges" } ] }');
+
 
 
 
