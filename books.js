@@ -1,6 +1,8 @@
 'use strict';
 
 window.onload = init;
+//persistent format across requests
+var format; 
 
 function init(){
 	var uri = window.location.search.substring(1);
@@ -48,8 +50,7 @@ function displayCategories(d){
 	for(var i = 0; i < cats.length; i++){
 		//create a radio selector for each element
 		var radioBtn = document.createElement("input");
-		radioBtn.value = cats[i];
-		radioBtn.name = "cat";
+		radioBtn.value = cats[i]+"  ";
 		radioBtn.type = "radio";
 
 		//attach label
@@ -68,9 +69,24 @@ function displayCategories(d){
 	submit.value = "List Books";
 	form.appendChild(submit);
 	$('categories').appendChild(form);
-
-
+	submit.onclick = getBooks;
 }	
+
+function clear_books(){
+	var n = $('books');
+	while(n.firstChild){
+		n.removeChild(n.firstChild);
+	}
+}
+
+
+function getBooks(){
+	clear_books();
+	
+}
+
+
+
 
 function logExcept(a,e){
 	
