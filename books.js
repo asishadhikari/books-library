@@ -16,7 +16,7 @@ function init(){
 }
 
 function displayCategories(d){
-	
+	console.log(d);
 }	
 
 function logExcept(a,e){

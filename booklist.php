@@ -11,25 +11,29 @@ $display = $_GET["display"]; //
 $format = $_GET["format"];
 $display = $_GET["display"];
 
-//query for categories
-if( strcmp($display, "categories")==0 ){
+
+if( strcasecmp($display, "categories")==0){
 	$db = dbase_connect();
-	$stmt = "SELECT * FROM category;"
-	$categories = mysqli_query($db,$stmt);
+	$stmt = "SELECT * FROM category;";
+	$all_categories = mysqli_query($db, $stmt);
 
-
-	//check if json was requested
-	if( (strcasecmp($format,"json")==0 ){
-		$cats = array();
-		while($cat = $categories->fetch_assoc()){
-			array_push($cats, $row[$cat]);
+	//JSON data was requested
+	if( strcasecmp("JSON",$format)==0 ){
+		$list_of_categories = array();
+		while ($row = $all_categories->fetch_assoc()) {
+			array_push($list_of_categories, $row[category]);
 		}
-		$data_json = array("categories" => $cats);
-		echo json_encode($data_json);
+		$dataJSON = array("categories" => $list_of_categories);
+		echo json_encode($dataJSON);
 	}else{
-		//send ajax
+		//send XML
+		
 	}
+
+
 }
+
+
 
 
 
