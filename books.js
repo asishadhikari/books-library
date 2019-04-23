@@ -34,7 +34,6 @@ function displayCategories(d){
 		while(f_child){
 			//traverse xml 
 			var cat = f_child.firstChild.firstChild.nodeValue;
-			//var c_id = f_child.lastChild.firstChild.nodeValue;??unnecessary
 			cats.push([cat]);
 			f_child = f_child.nextSibling;
 		} 
@@ -42,6 +41,34 @@ function displayCategories(d){
 		console.log("Invalid Data format received");
 		console.log(d.responseText);
 	}
+
+
+	//build the form
+	var form = document.createElement("form");
+	for(var i = 0; i < cats.length; i++){
+		//create a radio selector for each element
+		var radioBtn = document.createElement("input");
+		radioBtn.value = cats[i];
+		radioBtn.name = "cat";
+		radioBtn.type = "radio";
+
+		//attach label
+		var label = document.createElement("label");
+		var val = document.createTextNode(cats[i]);
+		label.appendChild(val);
+
+		//attach the radio button to form
+		form.appendChild(radioBtn);
+		form.appendChild(label);
+	}
+
+	//attach a submit button to form
+	var submit = document.createElement("input");
+	submit.type="button";
+	submit.value = "List Books";
+	form.appendChild(submit);
+	$('categories').appendChild(form);
+
 
 }	
 
