@@ -1,7 +1,8 @@
 --- Drop all existing tables ---
 CREATE DATABASE IF NOT EXISTS BOOKS;
-CREATE USER 'USER1'@'localhost' IDENTIFIED BY 'USER1PASSWORD';
-GRANT ALL PRIVILEGES ON BOOKS.* TO 'USER1'@'localhost';    
+USE BOOKS;
+---CREATE USER 'USER1'@'localhost' IDENTIFIED BY 'USER1PASSWORD';
+---GRANT ALL PRIVILEGES ON BOOKS.* TO 'USER1'@'localhost';    
 
 DROP TABLE IF EXISTS title;
 DROP TABLE IF EXISTS year;
@@ -9,8 +10,7 @@ DROP TABLE IF EXISTS price;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS author;
 
-
-create table title (
+create table title(
     title_id int not null,
     title_name varchar(255) not null,
     category_id int,
@@ -39,6 +39,8 @@ create table author (
     author varchar(32) not null,
     primary key (author_id)
 );
+
+
 
 
 
