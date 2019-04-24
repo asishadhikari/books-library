@@ -51,6 +51,7 @@ function displayCategories(d){
 		var radioBtn = document.createElement("input");
 		radioBtn.value = cats[i]+"  ";
 		radioBtn.type = "radio";
+		radioBtn.name ="selection"
 
 
 		//attach label
@@ -147,7 +148,7 @@ function displayBooks(data){
         li.appendChild(row);
         ul.appendChild(li);
     }
-
+    $('books').appendChild(ul);
 
 }
 

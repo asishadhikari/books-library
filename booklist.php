@@ -38,14 +38,10 @@ if( strcasecmp($display, "categories")==0){
 	}
 }else if( strcasecmp($display, "list")==0 ){
 	$required_cats = $_GET["required_cats"];
-	$arr = array();
-	$arr = str_getcsv($required_cats);
-
-	$response_string = "";
 
 	$stmt = "SELECT title.title_name, category.category, year.year, author.author from title, ";
 	$stmt .= "category, author, year where title.title_id = year.title_id and title.author_id = ";
-	$stmt .= "author.author_id and category.category=  'Action' ;";
+	$stmt .= "author.author_id and category.category='".$required_cats. "' ;";
 
 
 	$all_books = mysqli_query($db, $stmt);
