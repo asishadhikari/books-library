@@ -8,7 +8,6 @@ function init(){
 	var uri = window.location.search.substring(1);
 	var params = new URLSearchParams(uri);
 	var format = params.get('format') || 'xml';
-	console.log(format + " type request will be sent");
 	new Ajax.Request("booklist.php",{
 		method : "get",
 		onException : logExcept,
@@ -87,7 +86,6 @@ function getBooks(){
 
 	//only request if non empty	
 	if(required_cats.length!=0){
-		console.log("asking server for data"+required_cats);
 		new Ajax.Request("booklist.php",{
 			method:"get",
 			parameters:{
@@ -143,7 +141,6 @@ function displayBooks(data){
             ", by " + book_list[i][0] + 
             " (" + book_list[i][2] + ")";
 
-        console.log(bookItem);
         var row = document.createTextNode(bookItem);
         li.appendChild(row);
         ul.appendChild(li);
