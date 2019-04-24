@@ -49,10 +49,16 @@ if( strcasecmp($display, "categories")==0){
 	if (strcasecmp($format, "json")==0) {
 		$list_of_books = array();
 		while ($row = $all_books->fetch_assoc()) {
-			array_push($list_of_books, $row[category]);
+			$a_list = array();
+			array_push($a_list, $row[author]);
+			array_push($a_list, $row[category]);
+			array_push($a_list, $row[year]);
+			array_push($a_list, $row[title_name]);
+			//create one array of entry
+			array_push($list_of_books,$a_list);
 		}
-		$returnJSON = array("books" => $list_of_books);
-		echo json_encode($returnJSON);
+		//$returnJSON = array("books" => $list_of_books);
+		echo json_encode($list_of_books);
 	} else {
 		$booksXML = new SimpleXMLElement("<?xml version='1.0'?><books></books>");
 		while ($row = $all_books->fetch_assoc()) {
@@ -80,8 +86,5 @@ function dbase_connect() {
 	}
 	return $conn;
 }
-
-
-
 
 ?>

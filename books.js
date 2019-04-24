@@ -7,7 +7,7 @@ var format;
 function init(){
 	var uri = window.location.search.substring(1);
 	var params = new URLSearchParams(uri);
-	var format = params.get('format') || 'xml';
+	format = params.get('format') || 'xml';
 	new Ajax.Request("booklist.php",{
 		method : "get",
 		onException : logExcept,
@@ -103,9 +103,9 @@ function getBooks(){
 }
 
 function displayBooks(data){
-    var book_list = [];
-    if (data.responseJSON) {
-        books = JSON.parse(data.responseJSON);
+    var book_list=[];  //[[author,category,year,title]] 
+    if (isJSON(data.responseText)) {
+        book_list = JSON.parse(data.responseText);
     }
     else if (data.responseXML) {
         var returnXML = data.responseXML;
