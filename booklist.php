@@ -43,11 +43,37 @@ if( strcasecmp($display, "categories")==0){
 
 	$response_string = "";
 
-	//create response string
-	foreach ($arr as $a){
-		$stmt = getStmt($a,$db);
+	$sql = "select t.title_name, a.author, y.year, c.category from title t ";
+	$sql .= "join category c on c.category_id = t.category_id and ";
+	$sql .= "c.category_id=" . $arr[0] . " ";
+	$sql .= "join year y on y.title_id = t.title_id ";
+	$sql .= "join author a on a.author_id = t.author_id;";
+	$all_books = mysqli_query($db, $sql);
+	
+	if ($format == "json") {
+		$list_of_books = array();
 
+		while ($row = $all_books->fetch_assoc()) {
+			array_push($list_of_books, $row[category]);
+		}
+		$returnJSON = array("books" => $list_of_books);
+		echo json_encode($returnJSON);
+	} else {
+		$booksXML = new SimpleXMLElement("<?xml version='1.0'?><books></books>");
+		while ($row = $all_books->fetch_assoc()) {
+			$currBook = $booksXML->addChild("book");
+			$currBook->addChild("author", $row[author]);
+			$currBook->addChild("name", $row[category]);
+			$currBook->addChild("year", $row[year]);
+			$currBook->addChild("title", $row[title_name]);
+		}
+
+		Header('Content-type: text/xml');
+		echo $booksXML->asXML();
 	}
+
+
+
 
 }
 
@@ -71,27 +97,6 @@ function dbase_connect() {
 }
 
 
-//for each category, return response as a JSON string
-function getResString($s,$db){
-	$stmt = "select t.title_name, a.author, y.year, c.category from title t ";
-	$stmt .= "join category c on c.category_id = t.category_id and ";
-	$stmt .= "c.category_id=" . $s . " ";
-	$stmt .= "join year y on y.title_id = t.title_id ";
-	$stmt .= "join author a on a.author_id = t.author_id;";
-	$complete_books = mysqli_query($db, $stmt);
 
-	if (strcasecmp($format,"json"){
-		$book_list = array();
-
-		while($record = $complete_books->fetch_assoc()){
-			array_push($book_list,$row[category]);
-		}
-		$dJson = array($s=>$book_list);
-		return dJson;
-	}else{
-		//return XML
-	}
-
-}
 
 ?>

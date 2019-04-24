@@ -1,0 +1,1 @@
+SELECT title.title_name, category.category, year.year, author.author from title, category, author, year where title.title_id = year.title_id and title.author_id = author.author_id and category.category="Action";
