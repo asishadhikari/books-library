@@ -104,7 +104,7 @@ function getBooks(){
 }
 
 function displayBooks(d){
-	console.log(d);
+	
 }
 
 

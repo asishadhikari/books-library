@@ -43,16 +43,15 @@ if( strcasecmp($display, "categories")==0){
 
 	$response_string = "";
 
-	$sql = "select t.title_name, a.author, y.year, c.category from title t ";
-	$sql .= "join category c on c.category_id = t.category_id and ";
-	$sql .= "c.category_id=" . $arr[0] . " ";
-	$sql .= "join year y on y.title_id = t.title_id ";
-	$sql .= "join author a on a.author_id = t.author_id;";
-	$all_books = mysqli_query($db, $sql);
-	
-	if ($format == "json") {
-		$list_of_books = array();
+	$stmt = "SELECT title.title_name, category.category, year.year, author.author from title, ";
+	$stmt .= "category, author, year where title.title_id = year.title_id and title.author_id = ";
+	$stmt .= "author.author_id and category.category=  'Action' ;";
 
+
+	$all_books = mysqli_query($db, $stmt);
+
+	if (strcasecmp($format, "json")==0) {
+		$list_of_books = array();
 		while ($row = $all_books->fetch_assoc()) {
 			array_push($list_of_books, $row[category]);
 		}
@@ -67,20 +66,10 @@ if( strcasecmp($display, "categories")==0){
 			$currBook->addChild("year", $row[year]);
 			$currBook->addChild("title", $row[title_name]);
 		}
-
 		Header('Content-type: text/xml');
 		echo $booksXML->asXML();
 	}
-
-
-
-
 }
-
-
-
-
-
 mysqli_close($db);
 
 
