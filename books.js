@@ -103,8 +103,25 @@ function getBooks(){
 
 }
 
-function displayBooks(d){
-	
+function displayBooks(data){
+    var book_list = [];
+    if (data.responseJSON) {
+        books = JSON.parse(data.responseJSON);
+    }
+    else if (data.responseXML) {
+        var returnXML = data.responseXML;
+        var books = returnXML.getElementsByTagName("books")[0];
+        var currBook = books.firstChild;
+        while (currBook) {
+            var bookAuthor = currBook.firstChild.firstChild.nodeValue;
+            var bookCat = currBook.firstChild.nextSibling.firstChild.nodeValue;
+            var bookYear = currBook.firstChild.nextSibling.
+                nextSibling.firstChild.nodeValue;
+            var bookName = currBook.lastChild.firstChild.nodeValue;
+            book_list.push([bookAuthor, bookCat, bookYear, bookName]);
+            currBook = currBook.nextSibling;
+        }
+    } 
 }
 
 
