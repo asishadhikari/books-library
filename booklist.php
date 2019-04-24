@@ -37,39 +37,48 @@ if( strcasecmp($display, "categories")==0){
 		echo $dataXML->asXML();
 	}
 }else if( strcasecmp($display, "list")==0 ){
+
+	//get the desired queries
 	$required_cats = $_GET["required_cats"];
+	$cat_arr = explode(",",$required_cats);
+	$responseJSON = array(); //form the json response
+	$responseXML = new SimpleXMLElement("<?xml version='1.0'?><books></books>");
 
-	$stmt = "SELECT title.title_name, category.category, year.year, author.author from title, ";
-	$stmt .= "category, author, year where title.title_id = year.title_id and title.author_id = ";
-	$stmt .= "author.author_id and category.category='".$required_cats. "' and category.category_id = title.category_id;";
+	foreach($cat_arr as $cat){
 
+		$stmt = "SELECT title.title_name, category.category, year.year, author.author from title, ";
+		$stmt .= "category, author, year where title.title_id = year.title_id and title.author_id = ";
+		$stmt .= "author.author_id and category.category='".$cat. "' and category.category_id = title.category_id;";
+		$all_books = mysqli_query($db, $stmt);
 
-	$all_books = mysqli_query($db, $stmt);
-
-	if (strcasecmp($format, "json")==0) {
-		$list_of_books = array();
-		while ($row = $all_books->fetch_assoc()) {
-			$a_list = array();
-			array_push($a_list, $row[author]);
-			array_push($a_list, $row[category]);
-			array_push($a_list, $row[year]);
-			array_push($a_list, $row[title_name]);
+		if (strcasecmp($format, "json")==0) {
+			$list_of_books = array();
+			while ($row = $all_books->fetch_assoc()) {
+				$a_list = array();
+				array_push($a_list, $row[author]);
+				array_push($a_list, $row[category]);
+				array_push($a_list, $row[year]);
+				array_push($a_list, $row[title_name]);
 			//create one array of entry
-			array_push($list_of_books,$a_list);
-		}
+				array_push($list_of_books,$a_list);
+			}
 		//$returnJSON = array("books" => $list_of_books);
-		echo json_encode($list_of_books);
-	} else {
-		$booksXML = new SimpleXMLElement("<?xml version='1.0'?><books></books>");
-		while ($row = $all_books->fetch_assoc()) {
-			$currBook = $booksXML->addChild("book");
-			$currBook->addChild("author", $row[author]);
-			$currBook->addChild("name", $row[category]);
-			$currBook->addChild("year", $row[year]);
-			$currBook->addChild("title", $row[title_name]);
+			array_push($responseJSON, $list_of_books);
+		} else {
+			while ($row = $all_books->fetch_assoc()) {
+				$currBook = $responseXML->addChild("book");
+				$currBook->addChild("author", $row[author]);
+				$currBook->addChild("name", $row[category]);
+				$currBook->addChild("year", $row[year]);
+				$currBook->addChild("title", $row[title_name]);
+			}
 		}
-		Header('Content-type: text/xml');
-		echo $booksXML->asXML();
+	}
+	if (strcasecmp($format, "json")==0) {
+		echo json_encode($responseJSON);
+	}else{
+		Header('Content-type: text/xml');	
+		echo $responseXML->asXML();
 	}
 }
 mysqli_close($db);
