@@ -21,6 +21,8 @@ function init(){
 		onSuccess : displayCategories
 	});
 
+	$('submit').onclick = getBooks;
+
 
 }
 
@@ -44,14 +46,12 @@ function displayCategories(d){
 		console.log(d.responseText);
 	}
 
-
-	//build the form
-	var form = document.createElement("form");
 	for(var i = 0; i < cats.length; i++){
 		//create a radio selector for each element
 		var radioBtn = document.createElement("input");
 		radioBtn.value = cats[i]+"  ";
 		radioBtn.type = "radio";
+
 
 		//attach label
 		var label = document.createElement("label");
@@ -59,17 +59,10 @@ function displayCategories(d){
 		label.appendChild(val);
 
 		//attach the radio button to form
-		form.appendChild(radioBtn);
-		form.appendChild(label);
+		$('categories').appendChild(radioBtn);
+		$('categories').appendChild(label);
 	}
-
-	//attach a submit button to form
-	var submit = document.createElement("input");
-	submit.type="button";
-	submit.value = "List Books";
-	form.appendChild(submit);
-	$('categories').appendChild(form);
-	submit.onclick = getBooks;
+	
 }	
 
 function clear_books(){
@@ -82,7 +75,13 @@ function clear_books(){
 
 function getBooks(){
 	clear_books();
-	
+	var c = $('categories').children;
+
+	for(var i = 0; i< c.length; i++){
+		if(c[i].checked){
+		console.log(c[i].value + "is checked");
+		}
+	}
 }
 
 
