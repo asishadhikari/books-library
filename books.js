@@ -158,7 +158,7 @@ function displayBooks(data){
                 title.appendChild(text);
                 title.setAttribute("id",book_list[i][1]);
                 $("books").appendChild(title);
-                $added.push(book_list[i][1]);
+                added.push(book_list[i][1]);
             }
             var b = book_list[i];
             var ul = document.createElement("ul");
