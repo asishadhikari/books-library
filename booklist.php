@@ -36,6 +36,11 @@ if( strcasecmp($display, "categories")==0){
 		Header('Content-type: text/xml');
 		echo $dataXML->asXML();
 	}
+}else if( strcasecmp($display, "list")==0 ){
+	$required_cats = $_GET["required_cats"];
+	$arr = array();
+	$arr = str_getcsv($required_cats);
+	
 }
 
 
@@ -55,6 +60,16 @@ function dbase_connect() {
 		exit($msg);
 	}
 	return $conn;
+}
+
+
+function getStmt($s){
+	$s = "SELECT t.title_name, a.author, y.year, c.category FROM title t ";
+	$s .= "JOIN category c ON c.category_id = t.category_id AND ";
+	$sql .= "c.category_id=" . $chosenCategory . " ";
+	$sql .= "join year y on y.title_id = t.title_id ";
+	$sql .= "join author a on a.author_id = t.author_id;";
+	$all_books = mysqli_query($db, $sql);
 }
 
 ?>

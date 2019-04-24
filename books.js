@@ -65,7 +65,7 @@ function displayCategories(d){
 	
 }	
 
-function clear_books(){
+function clearBooks(){
 	var n = $('books');
 	while(n.firstChild){
 		n.removeChild(n.firstChild);
@@ -74,17 +74,38 @@ function clear_books(){
 
 
 function getBooks(){
-	clear_books();
+	clearBooks();
 	var c = $('categories').children;
+	var required_cats = [];
 
 	for(var i = 0; i< c.length; i++){
 		if(c[i].checked){
-		console.log(c[i].value + "is checked");
+			required_cats.push(c[i].value);
 		}
 	}
+
+	//only request if non empty	
+	if(required_cats.length!=0){
+		console.log("asking server for data"+required_cats);
+		new Ajax.Request("booklist.php",{
+			method:"get",
+			parameters:{
+				display:"list",
+				format:format,
+				//pass in the array as string
+				required_cats:required_cats.toString(),
+			},
+			onSuccess:displayBooks,
+			onFailure:logExcept,
+			onException:logExcept
+		});
+	}
+
 }
 
-
+function displayBooks(d){
+	console.log(d);
+}
 
 
 function logExcept(a,e){
