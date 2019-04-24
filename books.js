@@ -121,7 +121,34 @@ function displayBooks(data){
             book_list.push([bookAuthor, bookCat, bookYear, bookName]);
             currBook = currBook.nextSibling;
         }
-    } 
+    } else {
+        console.log("Invalid Data format");
+        
+    }
+
+    if (book_list.length > 0) {
+        var title = document.createElement("p");
+        var text = document.createTextNode('Books in category ' + 
+            '"'+ book_list[0][1] + '":');
+        title.appendChild(text);
+        $("books").appendChild(title);
+    }
+
+    var ul = document.createElement("ul");
+
+    for (var i=0; i < book_list.length; i++) {
+        var li = document.createElement("li");
+        var bookItem = book_list[i][3] + 
+            ", by " + book_list[i][0] + 
+            " (" + book_list[i][2] + ")";
+
+        console.log(bookItem);
+        var row = document.createTextNode(bookItem);
+        li.appendChild(row);
+        ul.appendChild(li);
+    }
+
+
 }
 
 
