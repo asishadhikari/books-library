@@ -21,8 +21,6 @@ function init(){
     });
 
     $('submit').onclick = getBooks;
-
-
 }
 
 function displayCategories(d){
@@ -181,7 +179,6 @@ function displayBooks(data){
 
 
 function logExcept(a,e){
-
     console.log(a); //ajax object
     console.log("ajax status: " + a.status);
     console.log("status text: " + a.statusText);
