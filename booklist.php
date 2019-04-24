@@ -41,7 +41,7 @@ if( strcasecmp($display, "categories")==0){
 
 	$stmt = "SELECT title.title_name, category.category, year.year, author.author from title, ";
 	$stmt .= "category, author, year where title.title_id = year.title_id and title.author_id = ";
-	$stmt .= "author.author_id and category.category='".$required_cats. "' ;";
+	$stmt .= "author.author_id and category.category='".$required_cats. "' and category.category_id = title.category_id;";
 
 
 	$all_books = mysqli_query($db, $stmt);
